@@ -2,7 +2,7 @@
     "routes": [
       {
         "src": "/api/(.*)",
-        "dest": "https://api.example.com"
+        "dest": "https://api.github.com"
       }
     ]
   }
