@@ -4,6 +4,6 @@
       "src": "/api/(.*)",
       "dest": "https://api.github.com"
     }
-  ],
-  "rewrites": [{ "source": "/api/", "destination": "https://api.github.com" }]
+  ]
+ 
 }
