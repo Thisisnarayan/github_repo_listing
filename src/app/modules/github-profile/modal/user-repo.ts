@@ -25,3 +25,15 @@ export interface tabTypes {
     "text":string
     "value": null | number
 }
+
+export interface  startRepoDetails {
+    "html_url": string
+    "description": string
+    "topics" : Array<string>
+    "name" :string
+    "stargazers_count":number
+    "language":string
+    "owner" : {
+        avatar_url :string
+    }
+}

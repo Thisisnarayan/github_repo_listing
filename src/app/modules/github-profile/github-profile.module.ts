@@ -16,6 +16,8 @@ import { SkeletonModule } from "primeng/skeleton";
 import {ButtonModule} from 'primeng/button';
 import { LoadingProfileSkeletonComponent } from './component/loading-profile-skeleton/loading-profile-skeleton.component';
 import { LoadingGitTabSkeletonComponent } from './component/loading-git-tab-skeleton/loading-git-tab-skeleton.component';
+import { NgOptimizedImage } from '@angular/common';
+
 @NgModule({
   declarations: [GithubUserSearchComponent, UserBasicDetailsComponent, MainProfileComponent, UserTabDetailsComponent, LoadingProfileSkeletonComponent, LoadingGitTabSkeletonComponent],
   imports: [
@@ -28,7 +30,9 @@ import { LoadingGitTabSkeletonComponent } from './component/loading-git-tab-skel
     ToastModule,
     PaginatorModule,
     SkeletonModule,
-    ButtonModule
+    ButtonModule,
+    NgOptimizedImage,
+    
   ]
 })
 export class GithubProfileModule { }

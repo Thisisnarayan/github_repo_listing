@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { BehaviorSubject, distinctUntilChanged, finalize, tap } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { CacheService } from 'src/app/core/utils/cache.service';
-import { RepoDetails, tabTypes, UserRepo } from '../../modal/user-repo';
+import { RepoDetails, startRepoDetails, tabTypes, UserRepo } from '../../modal/user-repo';
 import { GithubProfileService } from '../../services/github-profile.service';
 import { LoadingService } from '../../services/loading.service';
 
@@ -16,10 +17,11 @@ export class UserTabDetailsComponent {
   user$: Observable<UserRepo | null>;
   repos: Array<RepoDetails> | null = [];
   isLoading$ : Observable<Boolean>;
+  starredRepos$: Observable<startRepoDetails[]>;
   buttons : tabTypes[] = [
    
     {
-      text: 'Repositories',
+      text: 'Repositories-Repositories',
       value: null,
     },
     {
@@ -35,10 +37,10 @@ export class UserTabDetailsComponent {
       value: null,
     },
   ];
-  selectedBtnIndex = 0;
+  selectedBtnIndex$ = new BehaviorSubject<number>(0);
   totalRecords: number = 0;
   username: string = '';
-  // private selectedBtnIndex$ = new BehaviorSubject<number>(0);
+  
   constructor(
     private profileService: GithubProfileService,
     private cacheNetworkService: CacheService,
@@ -55,9 +57,27 @@ export class UserTabDetailsComponent {
       })
     );
 
+    this.starredRepos$ = this.selectedBtnIndex$.pipe(
+      distinctUntilChanged(),
+      switchMap(index => {
+        if (index === 1) {
+          this.loadingService.show();
+          return this.cacheNetworkService.get<startRepoDetails[]>(`/users/${this.username}/starred`).pipe(  
+            finalize(() => {
+              this.loadingService.hide();
+            }),
+            tap(repos => {
+              this.buttons[1].value = repos.length;
+            })
+          );
+        } else {
+          return of([]);
+        }
+      })
+    );
     
     this.user$
-      .pipe(
+      .pipe(  
         switchMap((user) => {
           if (user) {
             this.totalRecords = user.public_repos;
@@ -65,7 +85,6 @@ export class UserTabDetailsComponent {
             const { public_repos, followers, following } = user;
 
             this.buttons[0].value = public_repos;
-           // this.buttons[1].value = user.starred_url ? 'loading' : 0; 
             this.buttons[2].value = followers;
             this.buttons[3].value = following;
             this.profileService.userCompleteDetails$.next(user);
@@ -85,24 +104,25 @@ export class UserTabDetailsComponent {
 
   ngOnInit() {}
 
-  // curl https://api.github.com/users/{username}/starred
+   
 
   toggleButton(index: number) {
-    this.selectedBtnIndex = index;
-    //   this.selectedBtnIndex$.next(index);
+    this.selectedBtnIndex$.next(index);
   }
 
   paginate(event: any) {
     console.log(event);
     const page = event.first / event.rows + 1;
     const pageSize = event.rows;
+    this.loadingService.show();
     this.cacheNetworkService.get<RepoDetails[]>(
       `/users/${this.username}/repos` + `?per_page=${event.rows}&page=${page}`
     ).subscribe((repos)=>{
       this.repos = repos;
+      this.loadingService.hide()
     })
   }
-
+  
   openLinkInNewTab(url: string) {
    window.open(url, '_blank');
   }

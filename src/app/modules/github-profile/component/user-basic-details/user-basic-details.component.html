@@ -1,9 +1,9 @@
 
 <ng-container *ngIf="{ user: user$ | async, isLoading: isLoading$ | async, userRepoCompleteDetails: userRepoCompleteDetails$ | async } as data">
-<p-card *ngIf="!data.isLoading && data.user">
-    <div>
-        <div class="mb-3 ml-3 mt-6">
-          <img src="{{ data.user.avatar_url }}" alt="Profile Image" class="border-round" width="180" height="180">
+<p-card *ngIf="data.user">
+  
+        <div class="mb-3 ml-3 mt-7">
+          <img src="{{ data.user.avatar_url }}" alt="Profile Image" class="border-round mt-4" width="180" height="180">
         </div>
  
           <div class="flex flex-column mb-2 ml-3 align-content-start" *ngIf="data.userRepoCompleteDetails != null">
@@ -17,15 +17,14 @@
               <i class="pi pi-twitter"></i>
             <div class="text-white text-base pl-3 cursor-pointer twitter-link" (click)="openTwitter(data.userRepoCompleteDetails.twitter_username)" >{{data.userRepoCompleteDetails.twitter_username}}</div>
             </div>
-            <div class="flex flex-row mb-2 text-center">
+            <div class="flex flex-row mb-4 text-center">
               <span class="text-white text-base ">{{data.userRepoCompleteDetails.followers}} Followers</span>
               <span class="text-white  text-base pl-1">. {{data.userRepoCompleteDetails.following}} Following</span>
             </div>
-          </div>
-       
-      </div>
+          </div> 
+     
 </p-card>
-<app-loading-profile-skeleton *ngIf="data.isLoading"></app-loading-profile-skeleton>
+<app-loading-profile-skeleton *ngIf="data.isLoading && !data.user"></app-loading-profile-skeleton>
 </ng-container>
 
   
