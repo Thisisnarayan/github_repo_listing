@@ -16,8 +16,15 @@
     * Users can able to choose maximum of 100 repositories per page.
 
 
+# Running Test for service folder 
+      
+ * Run the service file test using `npm run test -- --include src/app/core/utils/` command in cli
+ * Run Specific component file test using `npm run test -- --include src/app/modules/github-profile/component/user-tab-details` command in cli
+ * Run `ng test` to execute the unit tests  
 
+## Build
 
+ * Run `ng build --configuration=uat` to build the project for UAT enviroment same can be build with prodction envirnoment configuration
 
 # FyleChallenge
 
@@ -31,13 +38,6 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Running end-to-end tests
 
