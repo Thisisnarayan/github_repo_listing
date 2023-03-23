@@ -21,7 +21,7 @@ export class UserTabDetailsComponent {
   buttons : tabTypes[] = [
    
     {
-      text: 'Repositories-Repositories',
+      text: 'Repositories',
       value: null,
     },
     {
