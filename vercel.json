@@ -1,9 +1,9 @@
 {
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "https://api.github.com"
-      }
-    ]
-  }
-  
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://api.github.com"
+    }
+  ],
+  "rewrites": [{ "source": "/api/", "destination": "" }]
+}
