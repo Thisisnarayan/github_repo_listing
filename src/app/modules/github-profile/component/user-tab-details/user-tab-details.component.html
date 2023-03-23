@@ -6,6 +6,10 @@
     isLoading: isLoading$ | async
   } as data"
 >
+<app-loading-git-tab-skeleton
+*ngIf="data.isLoading"
+></app-loading-git-tab-skeleton>
+
   <div *ngIf="!data.isLoading && data.user">
     <div class="flex align-items-center mb-4">
       <div
@@ -119,18 +123,17 @@
         </div>
       </p-card>
     </div>
-    <p-paginator
-      *ngIf="
-        data.selectedBtnIndex == 0 && (repos == null ? false : repos.length > 0)
-      "
-      class="flex"
-      [rows]="10"
-      [totalRecords]="totalRecords"
-      [rowsPerPageOptions]="[10, 25, 50, 100]"
-      (onPageChange)="paginate($event)"
-    ></p-paginator>
+   
   </div>
-  <app-loading-git-tab-skeleton
-    *ngIf="data.isLoading"
-  ></app-loading-git-tab-skeleton>
+  <p-paginator
+  *ngIf="
+    data.selectedBtnIndex == 0 && (repos == null ? false : repos.length > 0)
+  "
+  class="flex"
+  [rows]="10"
+  [totalRecords]="totalRecords"
+  [rowsPerPageOptions]="[10, 25, 50, 100]"
+  (onPageChange)="paginate($event)"
+></p-paginator>
+
 </ng-container>
