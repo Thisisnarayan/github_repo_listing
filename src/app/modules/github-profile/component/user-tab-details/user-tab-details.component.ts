@@ -52,6 +52,7 @@ export class UserTabDetailsComponent {
         if (user) {
           this.toggleButton(0);
           this.repos = [];
+          this.loadingService.show();
           return this.cacheNetworkService.get<UserRepo>(`/users/${user.login}`); // make API call using user id
         } else {
           return of(null); // return null if user is null

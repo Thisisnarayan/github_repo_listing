@@ -24,7 +24,10 @@ export class GithubUserSearchComponent {
   selectedUser: GithubUser | null = null;
   search$ = new Subject<string>();
 
-  constructor(private cacheNetworkCall : CacheService , private profileService : GithubProfileService , private loadingService : LoadingService) {}
+  constructor(
+    private cacheNetworkCall: CacheService,
+    private profileService: GithubProfileService
+  ) {}
 
   ngOnInit() {
     this.search$
@@ -39,11 +42,10 @@ export class GithubUserSearchComponent {
   }
 
   getUsers(query: string): Observable<GithubUser[]> {
-    this.loadingService.show();
     const url = `/search/users?q=${query}`;
-    return this.cacheNetworkCall.get<any>(url).pipe(
-      map((response) => response.items)
-    );
+    return this.cacheNetworkCall
+      .get<any>(url)
+      .pipe(map((response) => response.items));
   }
 
   showUserOtherDetails() {
