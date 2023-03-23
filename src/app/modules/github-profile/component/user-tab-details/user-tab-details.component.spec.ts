@@ -82,4 +82,19 @@ describe('UserTabDetailsComponent', () => {
     expect(cacheNetworkServiceSpy).toHaveBeenCalledWith(`/users/${component.username}/repos?per_page=${event.rows}&page=${event.first / event.rows + 1}`);
   });
 
+  it('should call loadingService.show when paginate is called', () => {
+    const event = { first: 0, rows: 10 };
+    spyOn(loadingService, 'show');
+    component.paginate(event);
+    expect(loadingService.show).toHaveBeenCalled();
+  });
+
+  it('should call loadingService.hide when cacheNetworkService.get completes in paginate method', () => {
+    const event = { first: 0, rows: 10 };
+    spyOn(cacheNetworkService, 'get').and.returnValue(of([]));
+    spyOn(loadingService, 'hide')
+    component.paginate(event);
+    expect(loadingService.hide).toHaveBeenCalled();
+  });
+
 });
